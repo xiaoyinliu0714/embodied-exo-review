@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Embodied Lower-limb Exoskeleton Assistance: Survey, Challenges, and Perspectives">
+  <title>Embodied Lower-limb Exoskeleton Assistance: Survey, Challenges, and Perspectives</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f7f8fb;
+      --paper: rgba(255, 255, 255, 0.90);
+      --paper-solid: #ffffff;
+      --paper-soft: #f1f5f9;
+      --text: #0f172a;
+      --muted: #667085;
+      --line: #e4e7ec;
+      --accent: #1e3a8a;
+      --accent-2: #92400e;
+      --accent-soft: rgba(30, 58, 138, 0.08);
+      --teal-soft: rgba(146, 64, 14, 0.08);
+      --amber-soft: rgba(146, 64, 14, 0.08);
+      --shadow: 0 24px 80px rgba(15, 23, 42, 0.08);
+      --radius: 28px;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --title-gradient: linear-gradient(92deg, #0f172a 0%, #1e3a8a 42%, #92400e 78%, #111827 100%);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #070b16;
+        --paper: rgba(15, 23, 42, 0.82);
+        --paper-solid: #101828;
+        --paper-soft: #111827;
+        --text: #f8fafc;
+        --muted: #a3b0c2;
+        --line: rgba(148, 163, 184, 0.24);
+        --accent: #94a3b8;
+        --accent-2: #a16207;
+        --accent-soft: rgba(148, 163, 184, 0.11);
+        --teal-soft: rgba(161, 98, 7, 0.10);
+        --amber-soft: rgba(161, 98, 7, 0.10);
+        --shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
+        --title-gradient: linear-gradient(92deg, #e5e7eb 0%, #64748b 24%, #1e3a8a 52%, #92400e 82%, #f3f4f6 100%);
+      }
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--text);
+      background:
+        radial-gradient(circle at 14% -8%, rgba(30, 58, 138, 0.10), transparent 36rem),
+        radial-gradient(circle at 92% 2%, rgba(146, 64, 14, 0.08), transparent 34rem),
+        radial-gradient(circle at 50% 106%, rgba(15, 23, 42, 0.06), transparent 30rem),
+        var(--bg);
+      line-height: 1.65;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    p { margin: 0; }
+
+    sup {
+      font-size: 0.68em;
+      line-height: 0;
+      vertical-align: super;
+      margin-left: 1px;
+    }
+
+    .page {
+      width: min(1120px, calc(100% - 36px));
+      margin: 0 auto;
+      padding: 54px 0 76px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 22px 0 38px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 13px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: color-mix(in srgb, var(--paper-solid) 80%, transparent);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: 0 8px 28px rgba(15, 23, 42, 0.04);
+    }
+
+    h1 {
+      max-width: 1120px;
+      margin: 22px auto 16px;
+      font-size: clamp(32px, 4.05vw, 46px);
+      line-height: 1.12;
+      letter-spacing: -0.042em;
+      font-weight: 900;
+      background: var(--title-gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+
+    .subtitle {
+      max-width: 1080px;
+      margin: 0 auto 22px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.55;
+    }
+
+    .authors {
+      max-width: 1040px;
+      margin: 0 auto;
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.8;
+      font-weight: 500;
+    }
+
+    .author-line {
+      color: var(--accent);
+      font-size: 23px;
+      font-weight: 650;
+      letter-spacing: -0.02em;
+      display: flex;
+      justify-content: center;
+      align-items: baseline;
+      flex-wrap: wrap;
+      column-gap: 1.8rem;
+      row-gap: 6px;
+    }
+
+    .author-line a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .author-line a:hover {
+      text-decoration: underline;
+    }
+
+    .affiliation-line {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.7;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .affiliation-line sup {
+      margin-right: 4px;
+    }
+
+    .author-note {
+      margin-top: 8px;
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .links {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 44px;
+      padding: 10px 17px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--paper-solid);
+      color: var(--text);
+      font-weight: 750;
+      font-family: inherit;
+      font-size: 15px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.045);
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      border-color: color-mix(in srgb, var(--accent) 44%, var(--line));
+    }
+
+    .button.primary {
+      background: var(--text);
+      color: var(--bg);
+      border-color: var(--text);
+    }
+
+    section { margin-top: 28px; }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      padding: clamp(24px, 4vw, 42px);
+      overflow: hidden;
+      backdrop-filter: blur(16px);
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+      margin-bottom: 18px;
+    }
+
+    .kicker {
+      margin: 0 0 6px;
+      color: var(--accent);
+      text-transform: none;
+      letter-spacing: -0.03em;
+      font-weight: 800;
+      font-size: clamp(26px, 3vw, 32px);
+      line-height: 1.15;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.35;
+      letter-spacing: -0.02em;
+      font-weight: 650;
+      color: var(--text);
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      font-size: 18px;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 16px;
+      max-width: none;
+      text-align: justify;
+      hyphens: auto;
+    }
+
+    .mini-card p,
+    .sim-body p,
+    .video-card p,
+    .challenge p,
+    .caption,
+    .table-note {
+      text-align: justify;
+      hyphens: auto;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .split-figure {
+      margin: 0;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--paper-soft);
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-height: 100%;
+    }
+
+    .split-image {
+      padding: 14px 14px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .split-figure img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      border-radius: 16px;
+      background: #ffffff;
+      cursor: zoom-in;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .split-figure img:hover {
+      transform: scale(1.01);
+      box-shadow: 0 16px 42px rgba(15, 23, 42, 0.16);
+    }
+
+    .split-figure .caption {
+      margin-top: auto;
+    }
+
+    .split-side {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 100%;
+    }
+
+    .split-side .sim-card {
+      flex: 1 1 0;
+    }
+
+    .split-side .sim-body {
+      height: 100%;
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .split-side .item-head {
+      margin-bottom: 4px;
+      gap: 8px;
+    }
+
+    .split-side .icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 10px;
+      font-size: 12px;
+    }
+
+    .split-side .tag-line {
+      margin-top: 6px;
+    }
+
+    .split-side h3 {
+      margin-bottom: 4px;
+      font-size: 16px;
+    }
+
+    .split-side p {
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .split-side .tag {
+      margin-top: 8px;
+    }
+
+    .muted { color: var(--muted); }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .mini-card {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 12px 20px;
+      background: color-mix(in srgb, var(--paper-soft) 86%, transparent);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .mini-card p { color: var(--muted); font-size: 15px; line-height: 1.5; }
+
+    .icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 0;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 900;
+      font-size: 13px;
+      flex: none;
+    }
+
+    .item-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .item-head .icon,
+    .item-head .badge {
+      margin-bottom: 0;
+    }
+
+    .item-head h3 {
+      margin: 0;
+      min-width: 0;
+    }
+
+    .figure,
+    .resource-figure {
+      margin-top: 22px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      overflow: hidden;
+      background: var(--paper-soft);
+    }
+
+    .image-frame {
+      padding: 18px;
+      background: var(--paper-soft);
+    }
+
+    .image-frame img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      border-radius: 16px;
+      background: #ffffff;
+    }
+
+    .caption {
+      border-top: 1px solid var(--line);
+      padding: 12px 16px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .timeline-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .timebox {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 12px;
+      background: linear-gradient(180deg, var(--paper-solid), var(--paper-soft));
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .time-head {
+      display: flex;
+      align-items: center;
+      flex-wrap: nowrap;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .date {
+      color: var(--accent);
+      font-size: 15px;
+      font-weight: 900;
+      margin-bottom: 8px;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+    }
+
+    .time-head .date {
+      margin-bottom: 0;
+      white-space: nowrap;
+      flex: none;
+    }
+
+    .time-head .pill {
+      margin: 0;
+      padding: 1px 6px;
+      font-size: 10px;
+      font-weight: 750;
+      line-height: 1.35;
+      flex: none;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      margin: 4px 5px 4px 0;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--accent-soft);
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .pill.sim { background: var(--teal-soft); }
+
+    .timebox ul {
+      margin: 6px 0 0;
+      padding-left: 16px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .timebox li {
+      margin: 0;
+      line-height: 1.45;
+    }
+
+    .simulator-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .sim-card {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      overflow: hidden;
+      background: linear-gradient(180deg, var(--paper-solid), var(--paper-soft));
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sim-body {
+      padding: 12px 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .sim-body p { color: var(--muted); font-size: 15px; line-height: 1.5; }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      margin: 12px 6px 0 0;
+      padding: 5px 9px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      background: color-mix(in srgb, var(--paper-solid) 68%, transparent);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .video-taxonomy {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .video-card {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 12px 20px;
+      background: linear-gradient(180deg, var(--paper-solid), var(--paper-soft));
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .video-card .badge {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      margin-bottom: 0;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 900;
+      font-size: 13px;
+      flex: none;
+    }
+
+    .tag-line {
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .tag-line .tag {
+      margin: 0;
+    }
+
+    .video-card p { color: var(--muted); font-size: 15px; line-height: 1.5; }
+
+    .table-note {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .table-wrap {
+      margin-top: 22px;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: var(--paper-solid);
+    }
+
+    table {
+      width: max-content;
+      min-width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+    }
+
+    th, td {
+      padding: 11px 14px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid var(--line);
+      white-space: nowrap;
+    }
+
+    th {
+      background: var(--accent-soft);
+      color: var(--text);
+      font-size: 12px;
+      letter-spacing: 0.02em;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    tbody tr:nth-child(even) td {
+      background: color-mix(in srgb, var(--paper-soft) 72%, transparent);
+    }
+
+    td.work { font-weight: 750; white-space: nowrap; }
+
+    .table-wrap a {
+      color: var(--accent);
+      font-weight: 750;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .challenge-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+      counter-reset: challenge;
+    }
+
+    .challenge {
+      counter-increment: challenge;
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 12px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 12px 14px;
+      background: color-mix(in srgb, var(--paper-soft) 86%, transparent);
+    }
+
+    .challenge::before {
+      content: counter(challenge, decimal-leading-zero);
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 15px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .challenge p { color: var(--muted); font-size: 15px; line-height: 1.5; }
+
+    pre {
+      margin: 0;
+      padding: 18px;
+      border-radius: 20px;
+      background: #101828;
+      color: #e4e7ec;
+      overflow-x: auto;
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .footer {
+      margin-top: 36px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .footer p + p { margin-top: 6px; }
+
+    .footer a {
+      color: var(--accent);
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .image-frame img {
+      cursor: zoom-in;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .image-frame img:hover {
+      transform: scale(1.01);
+      box-shadow: 0 16px 42px rgba(15, 23, 42, 0.16);
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+      background: rgba(2, 6, 23, 0.86);
+      backdrop-filter: blur(10px);
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox-content {
+      position: relative;
+      width: min(96vw, 1280px);
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .lightbox img {
+      width: 100%;
+      max-height: 84vh;
+      object-fit: contain;
+      border-radius: 18px;
+      background: #ffffff;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+      cursor: zoom-out;
+    }
+
+    .lightbox-caption {
+      color: #e5e7eb;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -16px;
+      right: -16px;
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.88);
+      color: #ffffff;
+      font-size: 22px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    @media (max-width: 860px) {
+      .page {
+        width: min(100% - 24px, 1120px);
+        padding-top: 32px;
+      }
+
+      .section-title { display: block; }
+
+      .section-title .button { margin-top: 14px; }
+
+      .grid.three,
+      .grid.two,
+      .timeline-grid,
+      .simulator-grid,
+      .video-taxonomy,
+      .split {
+        grid-template-columns: 1fr;
+      }
+
+      h1 { letter-spacing: -0.045em; }
+
+      .lightbox { padding: 14px; }
+
+      .lightbox-close {
+        top: 8px;
+        right: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <span class="eyebrow">Survey · Challenges · Perspectives · Lower-limb Exoskeletons</span>
+
+      <h1>Embodied Lower-limb Exoskeleton Assistance:<br>Survey, Challenges, and Perspectives</h1>
+
+      <p class="subtitle">
+        A system-level survey of how artificial intelligence enables personalized, comfortable assistance<br>
+        through structural self-adaptation, task adaptation, user-specific adaptation, and control self-regulation.
+      </p>
+
+      <div class="links">
+        <a class="button" href="#bibtex">
+          <i class="fa-solid fa-book"></i> BibTeX
+        </a>
+      </div>
+    </header>
+
+    <section id="abstract" class="card">
+      <div class="section-title">
+        <div>
+          <p class="kicker">Abstract</p>
+          <h2>Personalized assistance in a coupled human–robot loop</h2>
+        </div>
+      </div>
+
+      <p class="lead">
+        Over the past decade, artificial intelligence has been widely applied to lower-limb exoskeletons so they can
+        adapt to complex tasks and assist diverse users. This survey defines embodied lower-limb exoskeleton assistance
+        and reviews the field along four coupled dimensions: structural self-adaptation, task adaptation, user-specific
+        adaptation, and control self-regulation. These dimensions form one closed loop—the body, the brain, and the
+        cerebellum—for efficient, comfortable movement in dynamic environments.
+      </p>
+
+      <div class="grid three" style="margin-top:22px;">
+        <article class="mini-card">
+          <div class="item-head">
+            <div class="icon">01</div>
+            <h3>Body · Structure</h3>
+          </div>
+          <p>Self-aligning joints follow anatomy, while lightweight, compliant drives deliver torque with little extra mass or impedance.</p>
+        </article>
+        <article class="mini-card">
+          <div class="item-head">
+            <div class="icon">02</div>
+            <h3>Brain · Decision</h3>
+          </div>
+          <p>Task policies come from sensor fusion or musculoskeletal learning, and are then personalized through online and cross-subject transfer.</p>
+        </article>
+        <article class="mini-card">
+          <div class="item-head">
+            <div class="icon">03</div>
+            <h3>Cerebellum · Control</h3>
+          </div>
+          <p>Compensation and optimization turn high-level commands into stable torque while preserving safety and voluntary motion.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="overview" class="card">
+      <div class="section-title">
+        <div>
+          <p class="kicker">Overview</p>
+          <h2>Survey organization</h2>
+        </div>
+        <p class="muted">Physical embodiment, high-level decision-making, and low-level control.</p>
+      </div>
+
+      <p class="lead">
+        An embodied exoskeleton perceives the wearer, the device, and the environment, then optimizes an assistance
+        torque profile for the task at hand. The physical structure is the body. Task and individual adaptation are
+        the brain. Control self-regulation is the cerebellum. Together they support assistance when movement, need,
+        and terrain all change.
+      </p>
+
+      <div class="figure">
+        <div class="image-frame">
+          <img src="assets/fig1.png" alt="Survey organization across structural adaptation, task adaptation, individual adaptation, control regulation, and implementation">
+        </div>
+        <div class="caption">
+          Section II is structural adaptation. Sections III and IV are the high-level controller: task adaptation and individual adaptation.
+          Section V is the low-level controller. Section VI brings the loop to hardware and experiments.
+        </div>
+      </div>
+
+      <div class="timeline-grid">
+        <article class="timebox">
+          <div class="time-head">
+            <div class="date">Section II · Body</div>
+            <span class="pill">Structure</span>
+          </div>
+          <ul>
+            <li>Challenge 1.1: user-specific joint kinematics</li>
+            <li>Challenge 1.2: torque with low mass and impedance</li>
+          </ul>
+        </article>
+        <article class="timebox">
+          <div class="time-head">
+            <div class="date">Section III · Brain</div>
+            <span class="pill sim">Task</span>
+          </div>
+          <ul>
+            <li>Challenge 2.1–2.2: low-cost multimodal fusion</li>
+            <li>Challenge 2.3–2.4: musculoskeletal learning</li>
+          </ul>
+        </article>
+        <article class="timebox">
+          <div class="time-head">
+            <div class="date">Section IV · Brain</div>
+            <span class="pill sim">Individual</span>
+          </div>
+          <ul>
+            <li>Challenge 3.1–3.2: sample-efficient personalization</li>
+            <li>Challenge 3.3: cross-subject generalization</li>
+          </ul>
+        </article>
+        <article class="timebox">
+          <div class="time-head">
+            <div class="date">Section V · Cerebellum</div>
+            <span class="pill">Control</span>
+          </div>
+          <ul>
+            <li>Challenge 4.1: tracking under uncertain dynamics</li>
+            <li>Challenge 4.2: safety, effort, and voluntary motion</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="structure" class="card">
+      <div class="section-title">
+        <div>
+          <p class="kicker">Structural Self-adaptation</p>
+          <h2>Kinematic and dynamic compatibility</h2>
+        </div>
+      </div>
+
+      <div class="split">
+        <figure class="split-figure">
+          <div class="split-image">
+            <img src="assets/fig5.png" alt="Kinematic compatibility follows anatomical joint motion. Dynamic compatibility uses lightweight, compliant actuation.">
+          </div>
+          <figcaption class="caption">(a) Kinematic compatibility follows anatomical joint motion. (b) Dynamic compatibility uses lightweight, compliant actuation.</figcaption>
+        </figure>
+        <div class="split-side">
+          <article class="sim-card">
+            <div class="sim-body">
+              <h3>Kinematic compatibility</h3>
+              <p>Self-aligning joints follow each wearer’s anatomy, matching assisted degrees of freedom and the moving knee center so assistance arrives as joint torque.</p>
+              <div class="tag-line">
+                <span class="tag">Self-alignment</span><span class="tag">Polycentric knee</span><span class="tag">Interface fit</span>
+              </div>
+            </div>
+          </article>
+          <article class="sim-card">
+            <div class="sim-body">
+              <h3>Dynamic compatibility</h3>
+              <p>Proximal placement, series elasticity, and low-ratio drives keep continuous torque while cutting worn mass and interaction impedance.</p>
+              <div class="tag-line">
+                <span class="tag">Quasi-direct drive</span><span class="tag">Series elasticity</span><span class="tag">Low impedance</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="task" class="card">
+      <div class="section-title">
+        <div>
+          <p class="kicker">Task Adaptation</p>
+          <h2>From multimodal sensing to assistance policies</h2>
+        </div>
+      </div>
+
+      <p class="lead">
+        A high-level map takes observations—IMU, camera, EMG, encoders—and returns joint torque, joint angle, or a
+        trajectory. One line of work learns that map from multimodal datasets. The other trains assistance inside a
+        musculoskeletal simulator, where human-like locomotion and exoskeleton torque are optimized together.
+      </p>
+
+      <div class="figure">
+        <div class="image-frame">
+          <img src="assets/fig2.png" alt="Multimodal information fusion for torque prediction and musculoskeletal reinforcement learning for exoskeleton policies">
+        </div>
+        <div class="caption">
+          (a) Motion-capture torque labels train a network for real-time prediction from wearable sensors.
+          (b) A musculoskeletal policy learns human-like gait, then reinforcement learning optimizes exoskeleton assistance.
+        </div>
+      </div>
+
+      <div class="video-taxonomy">
+        <article class="video-card">
+          <div class="item-head">
+            <div class="badge">01</div>
+            <h3>Torque prediction</h3>
+          </div>
+          <p>Inverse dynamics or EMG supplies torque labels. Temporal networks fuse wearable signals into an assistance command.</p>
+        </article>
+        <article class="video-card">
+          <div class="item-head">
+            <div class="badge">02</div>
+            <h3>Trajectory prediction</h3>
+          </div>
+          <p>Rule-based primitives compress motion into a few parameters. End-to-end models, including flow matching, predict full trajectories outdoors.</p>
+        </article>
+        <article class="video-card">
+          <div class="item-head">
+            <div class="badge">03</div>
+            <h3>Musculoskeletal locomotion</h3>
+          </div>
+          <p>Synergies and actor–critic learning make high-dimensional muscle control trainable in OpenSim, MuJoCo, and Hyfydy.</p>
+        </article>
+        <article class="video-card">
+          <div class="item-head">
+            <div class="badge">04</div>
+            <h3>Exoskeleton policy learning</h3>
+          </div>
+          <p>Joint or staged training balances tracking, lower human effort, and smoothness. Domain randomization narrows the sim-to-real gap.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="individual" class="card">
+      <div class="section-title">
+        <div>
+          <p class="kicker">User-specific Adaptation</p>
+          <h2>Personalization across bodies and preferences</h2>
+        </div>
+      </div>
+
+      <p class="lead">
+        Individual adaptation seeks user-specific parameters for the same observation-to-command map. Human-in-the-loop
+        optimization tunes them from metabolic cost or preference feedback. Data-fusion methods align motion distributions
+        across users, or learn shared representations, so the map generalizes to a new wearer.
+      </p>
+
+      <div class="figure">
+        <div class="image-frame">
+          <img src="assets/fig3.png" alt="Human-in-the-loop optimization from metabolic rate or preference, and cross-subject transfer by shared representation or domain alignment">
+        </div>
+        <div class="caption">
+          (a) Online interaction updates user-specific parameters to lower metabolic rate or to match a preference objective.
+          (b) Shared representations and source–target alignment improve prediction for a new wearer.
+        </div>
+      </div>
+
+      <div class="simulator-grid">
+        <article class="sim-card">
+          <div class="sim-body">
+            <div class="item-head">
+              <div class="icon">01</div>
+              <h3>Human-in-the-loop optimization</h3>
+            </div>
+            <p>Bayesian optimization and CMA-ES tune peak timing, magnitude, and impedance from only a few trials. Preference models, from classifiers to Gaussian processes, capture comfort that one physiological signal misses, while large network policies stay hard to optimize online.</p>
+            <div class="tag-line">
+              <span class="tag">Metabolic cost</span><span class="tag">Preference</span><span class="tag">CMA-ES / BO</span>
+            </div>
+          </div>
+        </article>
+        <article class="sim-card">
+          <div class="sim-body">
+            <div class="item-head">
+              <div class="icon">02</div>
+              <h3>Cross-subject transfer</h3>
+            </div>
+            <p>Large multi-subject models, meta-learning, and continual adapters share temporal structure across people. Domain adaptation then aligns features with MMD, MDD, or covariance distance and reweights source subjects by similarity or reliability, so a new wearer needs little new data.</p>
+            <div class="tag-line">
+              <span class="tag">Shared representation</span><span class="tag">Domain adaptation</span><span class="tag">Foundation models</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="control" class="card">
+      <div class="section-title">
+        <div>
+          <p class="kicker">Control Self-regulation</p>
+          <h2>From reference commands to motor torque</h2>
+        </div>
+      </div>
+
+      <div class="split">
+        <figure class="split-figure">
+          <div class="split-image">
+            <img src="assets/fig4.png" alt="Control compensation rejects tracking error. Control optimization balances safety, comfort, and voluntary movement.">
+          </div>
+          <figcaption class="caption">(a) Compensation rejects interaction torque and model error while tracking trajectory or torque. (b) Optimization balances effort, safety, and voluntary motion.</figcaption>
+        </figure>
+        <div class="split-side">
+          <article class="sim-card">
+            <div class="sim-body">
+              <div class="item-head">
+                <div class="icon">01</div>
+                <h3>Control compensation</h3>
+              </div>
+              <p>Observers, adaptation, and iterative learning reject interaction torque, model error, and saturation while tracking trajectory or torque.</p>
+              <div class="tag-line">
+                <span class="tag">DOB / ESO</span><span class="tag">Adaptation</span><span class="tag">Iterative learning</span>
+              </div>
+            </div>
+          </article>
+          <article class="sim-card">
+            <div class="sim-body">
+              <div class="item-head">
+                <div class="icon">02</div>
+                <h3>Control optimization</h3>
+              </div>
+              <p>Impedance and constrained optimization cut effort, match interaction, and preserve voluntary motion within safety and actuator limits.</p>
+              <div class="tag-line">
+                <span class="tag">Impedance</span><span class="tag">CBF</span><span class="tag">Actuator limits</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="resources" class="card">
+      <div class="section-title">
+        <div>
+          <p class="kicker">Resources</p>
+          <h2>Datasets and representative systems</h2>
+        </div>
+      </div>
+
+      <p class="lead">
+        Two tables from the survey are summarized here: multimodal datasets used to learn task-adaptive maps, and
+        hardware–control systems evaluated on walking and related activities.
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Related work</th>
+              <th>Motion capture</th>
+              <th>Sensors</th>
+              <th>Setting</th>
+              <th>Tasks and terrains</th>
+              <th>Link</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="work"><a href="https://doi.org/10.1016/j.jbiomech.2021.110320" target="_blank" rel="noopener">Camargo et al. (2021)</a></td>
+              <td>Yes</td>
+              <td>IMU, sEMG, force plate</td>
+              <td>Indoor</td>
+              <td>Level ground, stairs, and ramps</td>
+              <td><a href="https://www.epic.gatech.edu/opensource-biomechanics-camargo-et-al/" target="_blank" rel="noopener">Data</a></td>
+            </tr>
+            <tr>
+              <td class="work"><a href="https://doi.org/10.1126/scirobotics.adi8852" target="_blank" rel="noopener">Molinaro et al. (2024)</a></td>
+              <td>Yes</td>
+              <td>IMU, force plate</td>
+              <td>Indoor</td>
+              <td>Level and ramp walking</td>
+              <td><a href="https://datadryad.org/dataset/doi:10.5061/dryad.8kprr4xsv" target="_blank" rel="noopener">Data</a></td>
+            </tr>
+            <tr>
+              <td class="work"><a href="https://doi.org/10.1038/s41586-024-08157-7" target="_blank" rel="noopener">Molinaro et al. (2024)</a></td>
+              <td>Yes</td>
+              <td>IMU, force plate</td>
+              <td>Indoor</td>
+              <td>28 tasks: walking, running, stairs, jumping, and squatting</td>
+              <td><a href="https://doi.org/10.24433/CO.7641031.v2" target="_blank" rel="noopener">Code</a></td>
+            </tr>
+            <tr>
+              <td class="work"><a href="https://doi.org/10.1177/02783649261444046" target="_blank" rel="noopener">Li et al. (2026)</a></td>
+              <td>Yes</td>
+              <td>IMU, sEMG, force, ultrasound</td>
+              <td>Indoor</td>
+              <td>Level and ramp walking</td>
+              <td><a href="https://k2muse.github.io/" target="_blank" rel="noopener">Data</a></td>
+            </tr>
+            <tr>
+              <td class="work"><a href="https://doi.org/10.1038/s41586-024-07382-4" target="_blank" rel="noopener">Luo et al. (2024)</a></td>
+              <td>No</td>
+              <td>IMU, encoder</td>
+              <td>Outdoor</td>
+              <td>Walking, running, and stairs</td>
+              <td><a href="https://github.com/IntelligentRobotLearning/pseudocode_learning_in_simulation" target="_blank" rel="noopener">Code</a></td>
+            </tr>
+            <tr>
+              <td class="work">Anonymous (2026)</td>
+              <td>No</td>
+              <td>IMU, encoder</td>
+              <td>Outdoor</td>
+              <td>Running, climbing, rough terrain, jumping, and squatting</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="table-note">
+        Motion-capture datasets estimate joint kinetics indoors. Outdoor sets record IMU and motor-side signals and shift more of the torque problem onto the controller.
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Related work</th>
+              <th>Joint</th>
+              <th>Mass (kg)</th>
+              <th>High-level controller</th>
+              <th>Low-level controller</th>
+              <th>Tasks / terrains</th>
+              <th>Reduction (%)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="work"><a href="https://doi.org/10.1126/science.aav7536" target="_blank" rel="noopener">Kim (2019)</a></td>
+              <td>Hip</td>
+              <td>5.0</td>
+              <td>CoM rules → force</td>
+              <td>—</td>
+              <td>Level/slope walk, run</td>
+              <td>9.3 (n=9)</td>
+            </tr>
+            <tr>
+              <td class="work"><a href="https://doi.org/10.1038/s41586-022-05191-1" target="_blank" rel="noopener">Slade (2022)</a></td>
+              <td>Ankle</td>
+              <td>2.7</td>
+              <td>LR + CMA-ES → curve</td>
+              <td>FB + ILC · 200 Hz</td>
+              <td>Level/slope walk</td>
+              <td>23.0 (n=10)</td>
+            </tr>
+            <tr>
+              <td class="work"><a href="https://doi.org/10.1038/s41586-024-07382-4" target="_blank" rel="noopener">Luo (2024)</a></td>
+              <td>Hip</td>
+              <td>3.2</td>
+              <td>MLP (RL) → angle</td>
+              <td>PD + current · 100 Hz</td>
+              <td>Walking, running, and stairs</td>
+              <td>24.3 (n=8)</td>
+            </tr>
+            <tr>
+              <td class="work"><a href="https://doi.org/10.1038/s41586-024-08157-7" target="_blank" rel="noopener">Molinaro (2024b)</a></td>
+              <td>Hip–knee</td>
+              <td>7.0</td>
+              <td>TCN → torque</td>
+              <td>55 Hz</td>
+              <td>Walk/run, lift, lunge</td>
+              <td>−8.0 (n=9)</td>
+            </tr>
+            <tr>
+              <td class="work"><a href="https://doi.org/10.1126/scirobotics.adi8852" target="_blank" rel="noopener">Molinaro (2024a)</a></td>
+              <td>Hip</td>
+              <td>4.8</td>
+              <td>TCN → torque</td>
+              <td>Current FB · 200 Hz</td>
+              <td>Level, ramps, stairs</td>
+              <td>5.4 (n=10)</td>
+            </tr>
+            <tr>
+              <td class="work"><a href="https://doi.org/10.1038/s42256-024-00894-8" target="_blank" rel="noopener">Tricomi (2024)</a></td>
+              <td>Hip</td>
+              <td>2.9</td>
+              <td>Phase portrait → phase</td>
+              <td>Position PD · 100 Hz</td>
+              <td>Level, hills, steps</td>
+              <td>10.5 (Off, n=10, old)</td>
+            </tr>
+            <tr>
+              <td class="work"><a href="https://doi.org/10.1109/TRO.2025.3567489" target="_blank" rel="noopener">Tricomi (2025)</a></td>
+              <td>Hip</td>
+              <td>2.7</td>
+              <td>GM + AO → terrain/phase</td>
+              <td>Position PID · 100 Hz</td>
+              <td>Level, stairs</td>
+              <td>13.4 (Off, n=6)</td>
+            </tr>
+            <tr>
+              <td class="work"><a href="https://doi.org/10.1109/TRO.2022.3170239" target="_blank" rel="noopener">Durandau (2022)</a></td>
+              <td>Ankle</td>
+              <td>20</td>
+              <td>EMG–MSK → torque</td>
+              <td>PD + FF + DOB · 1000 Hz</td>
+              <td>Varied speed/grade</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td class="work"><a href="https://doi.org/10.1109/TRO.2024.3468768" target="_blank" rel="noopener">Chen (2024)</a></td>
+              <td>Knee</td>
+              <td>—</td>
+              <td>MLP/VAE + DMP → angle</td>
+              <td>DOB + VIC</td>
+              <td>Walk, stairs, squat</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td class="work"><a href="https://doi.org/10.1109/TRO.2023.3235584" target="_blank" rel="noopener">Medrano (2023)</a></td>
+              <td>Ankle</td>
+              <td>—</td>
+              <td>EKF → gait params</td>
+              <td>Current PID</td>
+              <td>Uneven/sloped walk</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td class="work"><a href="https://doi.org/10.1126/sciadv.adq0288" target="_blank" rel="noopener">Lee (2024)</a></td>
+              <td>Knee</td>
+              <td>4.4</td>
+              <td>CNN → gait params</td>
+              <td>Pseudo-imp. · 100 Hz</td>
+              <td>Level, ramps, stairs</td>
+              <td>6.2 (Off, n=10)</td>
+            </tr>
+            <tr>
+              <td class="work"><a href="https://doi.org/10.1038/s41467-026-75528-1" target="_blank" rel="noopener">X. Zhang (2026)</a></td>
+              <td>Hip</td>
+              <td>2.9</td>
+              <td>RF + FSM → task/phase</td>
+              <td>P + LPF</td>
+              <td>Level, STS</td>
+              <td>18.0 (n=7, old)</td>
+            </tr>
+            <tr>
+              <td class="work"><a href="https://doi.org/10.1109/TRO.2026.3742234" target="_blank" rel="noopener">Y. Zhang (2026)</a></td>
+              <td>Hip</td>
+              <td>4.0</td>
+              <td>CNN + AO → mode/phase</td>
+              <td>200 Hz</td>
+              <td>Level, uphill, stairs</td>
+              <td>15.3 (n=5)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="table-note">
+        Reduction is the level-walking net metabolic change versus walking without the exoskeleton. (Off) is versus assistance off. n is the number of participants. (old) marks older adults; other cohorts are young adults. Mass includes the battery and controller. A rate in the low-level column is the assistance-command update rate.
+        Abbreviations: LR, logistic regression; ILC, iterative learning control; TCN, temporal convolutional network; GM, geometric model; AO, adaptive oscillator; MSK, musculoskeletal; DMP, dynamic movement primitive; EKF, extended Kalman filter; RF, random forest; FSM, finite-state machine; FB, feedback; FF, feedforward; DOB, disturbance observer; VIC, variable impedance control; LPF, low-pass filter; STS, sit-to-stand.
+      </p>
+    </section>
+
+    <section id="challenges" class="card">
+      <div class="section-title">
+        <div>
+          <p class="kicker">Open Challenges</p>
+          <h2>Limitations and future directions</h2>
+        </div>
+      </div>
+
+      <p class="lead">
+        Assistance for healthy adults aims to augment strength and reduce metabolic cost. Along each of the four
+        dimensions, that progress still leaves a specific limit. The directions below address those limits, then the
+        wearable deployment needed to realize them.
+      </p>
+
+      <div class="challenge-list">
+        <article class="challenge">
+          <div>
+            <h3>Mechanical design</h3>
+            <p>Multi-joint mechanisms improve compatibility, but the added mass fatigues the wearer. Future devices should be detachable, modular, and garment-like, with compliant interfaces that stay light. Further reduction depends on lighter motors, batteries, and circuits.</p>
+          </div>
+        </article>
+        <article class="challenge">
+          <div>
+            <h3>Multimodal data acquisition</h3>
+            <p>Motion capture is costly outdoors, and musculoskeletal models for that terrain are hard to train. Lightweight sensing should collect these data without lab equipment, and shared mappings should place heterogeneous recordings in one representation.</p>
+          </div>
+        </article>
+        <article class="challenge">
+          <div>
+            <h3>Policy optimization</h3>
+            <p>Personalization works for a few parameters, but high-dimensional and neural-network policies remain difficult. Preference-based optimization should use short, real-time feedback so collection stays brief and user fatigue stays low.</p>
+          </div>
+        </article>
+        <article class="challenge">
+          <div>
+            <h3>Human–robot dynamics</h3>
+            <p>Tracking still depends on an accurate model, yet coupled human–exoskeleton dynamics are hard to write in closed form. Learned models should guide torque optimization and serve as simulators for training assistance policies.</p>
+          </div>
+        </article>
+        <article class="challenge">
+          <div>
+            <h3>Wearable realization</h3>
+            <p>These directions must stay comfortable and portable on a wearable device. Shared datasets, hardware, code, and mechanical designs support reproduction, and large multimodal models can carry the framework into wider human–robot interaction.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="bibtex" class="card">
+      <div class="section-title">
+        <div>
+          <p class="kicker">Citation</p>
+          <h2>BibTeX</h2>
+        </div>
+        <button class="button" type="button" id="copyBib">Copy</button>
+      </div>
+
+      <pre id="bibtexBlock">@article{anonymous2026embodiedexoskeleton,
+  title   = {Embodied Lower-limb Exoskeleton Assistance: Survey, Challenges, and Perspectives},
+  author  = {Anonymous},
+  year    = {2026}
+}</pre>
+    </section>
+
+    <footer class="footer">
+      <p>Page design referenced from <a href="https://ntumars.github.io/wm-robot-survey/" target="_blank" rel="noopener">World Model for Robot Learning: A Comprehensive Survey</a>.</p>
+      <p>© Embodied Lower-limb Exoskeleton Assistance Survey.</p>
+    </footer>
+
+    <div class="lightbox" id="imageLightbox" aria-hidden="true">
+      <div class="lightbox-content" role="dialog" aria-modal="true" aria-label="Image preview">
+        <button class="lightbox-close" type="button" id="lightboxClose" aria-label="Close image preview">×</button>
+        <img id="lightboxImage" src="" alt="">
+        <div class="lightbox-caption" id="lightboxCaption"></div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const copyButton = document.getElementById('copyBib');
+    const bibtexBlock = document.getElementById('bibtexBlock');
+
+    copyButton.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(bibtexBlock.innerText);
+        copyButton.textContent = 'Copied';
+        setTimeout(() => {
+          copyButton.textContent = 'Copy';
+        }, 1200);
+      } catch (error) {
+        copyButton.textContent = 'Select text';
+      }
+    });
+
+    const lightbox = document.getElementById('imageLightbox');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+    const lightboxClose = document.getElementById('lightboxClose');
+    const previewImages = document.querySelectorAll('.image-frame img, .split-figure img');
+
+    function openLightbox(image) {
+      lightboxImage.src = image.currentSrc || image.src;
+      lightboxImage.alt = image.alt || 'Image preview';
+      const caption = image.closest('.figure, .split-figure')?.querySelector('.caption');
+      lightboxCaption.textContent = caption ? caption.textContent.trim() : (image.alt || '');
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      lightboxImage.src = '';
+      lightboxImage.alt = '';
+      lightboxCaption.textContent = '';
+      document.body.style.overflow = '';
+    }
+
+    previewImages.forEach((image) => {
+      image.addEventListener('click', () => openLightbox(image));
+    });
+
+    lightboxClose.addEventListener('click', closeLightbox);
+
+    lightbox.addEventListener('click', (event) => {
+      if (event.target === lightbox || event.target === lightboxImage) {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && lightbox.classList.contains('open')) {
+        closeLightbox();
+      }
+    });
+  </script>
+</body>
+</html>
